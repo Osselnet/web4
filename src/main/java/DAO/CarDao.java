@@ -27,10 +27,10 @@ public class CarDao {
         session.close();
     }
 
-    public int getCountBrandCars(String brand) {
+    public long getCountBrandCars(String brand) {
         Query query = session.createQuery("select count(C.id) from Car C where brand = :carsBrand and sold = 0");
         query.setParameter("carsBrand", brand);
-        return Integer.parseInt(query.list().get(0).toString());
+        return (Long) query.uniqueResult();
     }
 
     public void buyCar(String brand, String model, String licensePlate) {
@@ -49,12 +49,12 @@ public class CarDao {
 
     public long getCostSoldCars() {
         Query query = session.createQuery("select sum(price) from Car where sold = 1");
-        return Long.parseLong(query.list().get(0).toString());
+        return (Long) query.uniqueResult();
     }
 
     public long getCountSoldCars() {
         Query query = session.createQuery("select count(*) from Car where sold = 1");
-        return Long.parseLong(query.list().get(0).toString());
+        return (Long) query.uniqueResult();
     }
 
     public void deleteBuyCars() {
