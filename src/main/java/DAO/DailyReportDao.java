@@ -13,7 +13,7 @@ public class DailyReportDao {
     private Session session;
 
     public DailyReportDao() {
-        this.session = (Session) DBHelper.getSessionFactory();
+        this.session = (Session) DBHelper.getSessionFactory().openSession();
     }
 
     public List<DailyReport> getAllDailyReport() {

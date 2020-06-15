@@ -9,10 +9,10 @@ import java.util.List;
 
 public class CarDao {
 
-    private final Session session;
+    private Session session;
 
     public CarDao() {
-        this.session = (Session) DBHelper.getSessionFactory();
+        this.session = (Session) DBHelper.getSessionFactory().openSession();
     }
 
     @SuppressWarnings("unchecked")
