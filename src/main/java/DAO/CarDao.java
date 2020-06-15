@@ -7,9 +7,11 @@ import util.DBHelper;
 
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 public class CarDao {
 
-    private Session session;
+    private final Session session;
 
     public CarDao() {
         this.session = DBHelper.getSessionFactory().openSession();
@@ -18,14 +20,12 @@ public class CarDao {
     @SuppressWarnings("unchecked")
     public List<Car> getAllCars() {
         List<Car> cars = (List<Car>) session.createQuery("from Car where sold = 0").list();
-        session.close();
         return cars;
     }
 
     public void addCar(String brand, String model, String licensePlate, Long price) {
         Car car = new Car(brand, model, licensePlate, price);
         session.save(car);
-        session.close();
     }
 
     public long getCountBrandCars(String brand) {
@@ -40,26 +40,31 @@ public class CarDao {
         query.setParameter("carsModel", model);
         query.setParameter("carsLicensePlate", licensePlate);
         query.executeUpdate();
-        session.close();
     }
 
     public void deleteAll() {
         session.createQuery("delete Car").executeUpdate();
-        session.close();
     }
 
     public long getCostSoldCars() {
+        long result = 0;
         Query query = session.createQuery("select sum(price) from Car where sold = 1");
-        return (Long) query.uniqueResult();
+        if (nonNull(query.uniqueResult())) {
+            result = (Long) query.uniqueResult();
+        }
+        return result;
     }
 
     public long getCountSoldCars() {
+        long result = 0;
         Query query = session.createQuery("select count(*) from Car where sold = 1");
-        return (Long) query.uniqueResult();
+        if (nonNull(query.uniqueResult())) {
+            result = (Long) query.uniqueResult();
+        }
+        return result;
     }
 
     public void deleteBuyCars() {
         session.createQuery("delete Car where sold = 1").executeUpdate();
-        session.close();
     }
 }

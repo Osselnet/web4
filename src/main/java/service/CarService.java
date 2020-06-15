@@ -2,14 +2,14 @@ package service;
 
 import DAO.CarDao;
 import model.Car;
-import org.hibernate.SessionFactory;
-import util.DBHelper;
 
 import java.util.List;
 
 public class CarService {
 
     private static CarService carService;
+
+    private final CarDao carDao = new CarDao();
 
     private CarService() {
 
@@ -23,34 +23,34 @@ public class CarService {
     }
 
     public List<Car> getAllCars() {
-        return new CarDao().getAllCars();
+        return carDao.getAllCars();
     }
 
     public void buyCar(String brand, String model, String licensePlate) {
-        new CarDao().buyCar(brand, model, licensePlate);
+        carDao.buyCar(brand, model, licensePlate);
     }
 
     public boolean addCar(String brand, String model, String licensePlate, Long price) {
-        if (new CarDao().getCountBrandCars(brand) <= 10) {
-            new CarDao().addCar(brand, model, licensePlate, price);
+        if (carDao.getCountBrandCars(brand) <= 10) {
+            carDao.addCar(brand, model, licensePlate, price);
             return true;
         }
         return false;
     }
 
     public void deleteAll() {
-        new CarDao().deleteAll();
+        carDao.deleteAll();
     }
 
     public long getCostSoldCars() {
-        return  new CarDao().getCostSoldCars();
+        return  carDao.getCostSoldCars();
     }
 
     public long getCountSoldCars() {
-        return  new CarDao().getCountSoldCars();
+        return  carDao.getCountSoldCars();
     }
 
     public void changeDay() {
-        new CarDao().deleteBuyCars();
+        carDao.deleteBuyCars();
     }
 }

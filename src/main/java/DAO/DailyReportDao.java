@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DailyReportDao {
 
-    private Session session;
+    private final Session session;
 
     public DailyReportDao() {
         this.session = DBHelper.getSessionFactory().openSession();
@@ -18,30 +18,24 @@ public class DailyReportDao {
 
     @SuppressWarnings("unchecked")
     public List<DailyReport> getAllDailyReport() {
-        List<DailyReport> dailyReports = session.createQuery("from DailyReport").list();
-        session.close();
-        return dailyReports;
+        return (List<DailyReport>) session.createQuery("from DailyReport").list();
     }
 
     public DailyReport getLastReport() {
         try {
             Query query = session.createQuery("from DailyReport order by id desc");
-            return (DailyReport) query.list().get(0);
+             return (DailyReport) query.uniqueResult();
         } catch (HibernateException | ClassCastException e) {
             return null;
-        } finally {
-            session.close();
         }
     }
 
     public void changeDay(long soldCars, long earnings) {
         DailyReport dailyReport = new DailyReport(earnings, soldCars);
         session.save(dailyReport);
-        session.close();
     }
 
     public void deleteAll() {
         session.createQuery("delete DailyReport").executeUpdate();
-        session.close();
     }
 }

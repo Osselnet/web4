@@ -2,14 +2,14 @@ package service;
 
 import DAO.DailyReportDao;
 import model.DailyReport;
-import org.hibernate.*;
-import util.DBHelper;
 
 import java.util.List;
 
 public class DailyReportService {
 
     private static DailyReportService dailyReportService;
+
+    private final DailyReportDao dailyReportDao = new DailyReportDao();
 
     private DailyReportService() {
 
@@ -23,18 +23,18 @@ public class DailyReportService {
     }
 
     public List<DailyReport> getAllDailyReports() {
-        return new DailyReportDao().getAllDailyReport();
+        return dailyReportDao.getAllDailyReport();
     }
 
     public DailyReport getLastReport() {
-        return new DailyReportDao().getLastReport();
+        return dailyReportDao.getLastReport();
     }
 
     public void addNewDay(long soldCars, long earnings) {
-        new DailyReportDao().changeDay(soldCars, earnings);
+        dailyReportDao.changeDay(soldCars, earnings);
     }
 
     public void deleteAll() {
-        new DailyReportDao().deleteAll();
+        dailyReportDao.deleteAll();
     }
 }
