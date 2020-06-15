@@ -3,6 +3,7 @@ package DAO;
 import model.Car;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import util.DBHelper;
 
 import java.util.List;
 
@@ -10,8 +11,8 @@ public class CarDao {
 
     private final Session session;
 
-    public CarDao(Session session) {
-        this.session = session;
+    public CarDao() {
+        this.session = (Session) DBHelper.getSessionFactory();
     }
 
     @SuppressWarnings("unchecked")

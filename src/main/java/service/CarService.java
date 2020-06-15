@@ -11,48 +11,46 @@ public class CarService {
 
     private static CarService carService;
 
-    private final SessionFactory sessionFactory;
+    private CarService() {
 
-    private CarService(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
     }
 
     public static CarService getInstance() {
         if (carService == null) {
-            carService = new CarService(DBHelper.getSessionFactory());
+            carService = new CarService();
         }
         return carService;
     }
 
     public List<Car> getAllCars() {
-        return new CarDao(sessionFactory.openSession()).getAllCars();
+        return new CarDao().getAllCars();
     }
 
     public void buyCar(String brand, String model, String licensePlate) {
-        new CarDao(sessionFactory.openSession()).buyCar(brand, model, licensePlate);
+        new CarDao().buyCar(brand, model, licensePlate);
     }
 
     public boolean addCar(String brand, String model, String licensePlate, Long price) {
-        if (new CarDao(sessionFactory.openSession()).getCountBrandCars(brand) <= 10) {
-            new CarDao(sessionFactory.openSession()).addCar(brand, model, licensePlate, price);
+        if (new CarDao().getCountBrandCars(brand) <= 10) {
+            new CarDao().addCar(brand, model, licensePlate, price);
             return true;
         }
         return false;
     }
 
     public void deleteAll() {
-        new CarDao(sessionFactory.openSession()).deleteAll();
+        new CarDao().deleteAll();
     }
 
     public long getCostSoldCars() {
-        return  new CarDao(sessionFactory.openSession()).getCostSoldCars();
+        return  new CarDao().getCostSoldCars();
     }
 
     public long getCountSoldCars() {
-        return  new CarDao(sessionFactory.openSession()).getCountSoldCars();
+        return  new CarDao().getCountSoldCars();
     }
 
     public void changeDay() {
-        new CarDao(sessionFactory.openSession()).deleteBuyCars();
+        new CarDao().deleteBuyCars();
     }
 }

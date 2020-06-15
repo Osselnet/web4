@@ -4,6 +4,7 @@ import model.DailyReport;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import util.DBHelper;
 
 import java.util.List;
 
@@ -11,8 +12,8 @@ public class DailyReportDao {
 
     private Session session;
 
-    public DailyReportDao(Session session) {
-        this.session = session;
+    public DailyReportDao() {
+        this.session = (Session) DBHelper.getSessionFactory();
     }
 
     public List<DailyReport> getAllDailyReport() {
