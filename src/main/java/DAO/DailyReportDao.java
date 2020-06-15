@@ -13,9 +13,10 @@ public class DailyReportDao {
     private Session session;
 
     public DailyReportDao() {
-        this.session = (Session) DBHelper.getSessionFactory().openSession();
+        this.session = DBHelper.getSessionFactory().openSession();
     }
 
+    @SuppressWarnings("unchecked")
     public List<DailyReport> getAllDailyReport() {
         List<DailyReport> dailyReports = session.createQuery("from DailyReport").list();
         session.close();

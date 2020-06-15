@@ -12,7 +12,7 @@ public class CarDao {
     private Session session;
 
     public CarDao() {
-        this.session = (Session) DBHelper.getSessionFactory().openSession();
+        this.session = DBHelper.getSessionFactory().openSession();
     }
 
     @SuppressWarnings("unchecked")
